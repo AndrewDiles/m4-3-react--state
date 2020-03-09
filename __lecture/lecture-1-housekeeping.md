@@ -30,6 +30,29 @@ render(<>
   <Button>Button 1</Button>
   <BlueButton>Button 2</BlueButton>
 </>)
+
+
+
+//becomes
+
+const Button = styled.button`
+  padding: 10px;
+  margin: 10px;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #EEE;
+`;
+
+const BlueButton = styled(Button)`  // this extends a component
+  background: #2B00D7;
+  color: #FFF;
+`
+
+render(<>
+  <Button>Button 1</Button>
+  <BlueButton>Button 2</BlueButton>
+</>)
 ```
 
 ---
@@ -46,6 +69,14 @@ const ListItem = styled.li`
     border-bottom: none;
   }
 `
+//css...
+.sc-wer3sw { //random
+  border-bottom: 1px solid;
+}
+.sc-wer3sw:last-of-type { //random
+  border-bottom: none;
+}
+
 ```
 
 ---

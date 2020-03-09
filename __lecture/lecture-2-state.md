@@ -12,7 +12,8 @@ State is _dynamic data_. Things that change.
 
 ```jsx live=true
 const Counter = () => {
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = React.useState(0);  // React.useState(0) is a new hook.  The 0 is the initial value
+  //React.useState(0) outputs an array with two keys.  Here count is a variableName and setCount is a function
 
   return (
     <>
@@ -40,9 +41,9 @@ const [value, setValue] = React.useState(null);
 
 ```jsx
 // Without deconstruction:
-const valueState = React.useState(null);
-const value = valueState[0];
-const setValue = valueState[1];
+const bacon = React.useState(null);
+const value = bacon[0];
+const setValue = bacon[1];
 ```
 
 ---
@@ -83,6 +84,8 @@ This is why the values on the screen change.
 `value` and `onChange`
 
 ```jsx live=true
+
+//can import {react} from 'useState' and ommit the React below
 const Name = () => {
   const [name, setName] = React.useState('');
 
@@ -198,7 +201,7 @@ function SomeComponent() {
       <input
         type="checkbox"
         checked={agreed}
-        onChange={(ev) =>
+        onChange={(/*ev*/) =>
           setAgreed(!agreed)
         }
       />
@@ -244,6 +247,39 @@ const SearchInput = () => {
 const SearchResults = () => {
   // ??
 }
+
+//becomes 
+
+const App = () => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  return (
+    <>
+      <SearchInput 
+      seaerchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      />
+      <SearchResults />
+    </>
+  )
+}
+
+const SearchInput = ({searchTerm, setSearchTerm}) => {
+
+  return (
+    <input
+      type="text"
+      value={searchTerm}
+      onChange={(ev) => {
+        setSearchTerm(ev.target.value);
+      }}
+    />
+  );
+}
+
+const SearchResults = ({searchTerm}) => {
+  // ??
+}
 ```
 
 ---
@@ -277,6 +313,35 @@ const App = () => {
       The current count is: ???
 
       <Counter />
+    </>
+  )
+}
+
+render(<App />)
+
+//becomes
+
+const Counter = ({count, setCount}) => {
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+    </>
+  )
+};
+
+const App = () => {
+  const [count, setCount] = React.useState(0);
+  return (
+    <>
+      <p>The current count is: {count} </p>
+
+      <Counter 
+        count= {count}
+        setCount= {setCount}
+      />
     </>
   )
 }
@@ -327,6 +392,52 @@ const App = () => {
 }
 
 render(<App />)
+
+//becomes 
+const FavouriteFood = ({food, setFood}) => {  // food isn't actually used in this function, so you could remove it.
+  
+
+  return (
+    <>
+      <label>
+        <input
+          type="radio"
+          name="food"
+          value="pizza"
+          checked={food === 'pizza'}
+          onChange={() => setFood('pizza')}
+        />
+        Pizza
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="food"
+          value="broccoli"
+          // checked={food === 'broccoli'}  These checked are redundant
+          onChange={() => setFood('broccoli')}
+        />
+        Broccoli
+      </label>
+    </>
+  )
+};
+
+const App = () => {
+  const [food, setFood] = React.useState('');
+  return (
+    <>
+      <p>My favourite food is: {food}</p>
+      <br /><br />
+      <FavouriteFood 
+      food= {food}
+      setFood = {setFood}
+      />
+    </>
+  )
+}
+
+render(<App />)
 ```
 
 ---
@@ -343,7 +454,7 @@ render(<App />)
     <>
       <h3>What do you call someone with no body and no nose?</h3>
 
-      {showAnswer && (
+      {showAnswer && (  // short for if(showAnswer) {...  or  { showAnswer ? (...
         <p>Nobody knows!</p>
       )} 
       

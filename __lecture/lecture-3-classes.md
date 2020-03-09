@@ -59,6 +59,10 @@ It's important to be aware of classes, since many online resources will use them
 # Cheatsheet
 
 ```jsx
+//import React, { useState } from 'react'; 
+//const [count, setCount] = useState(0);
+// Can use above two lines instead of the first one below to prevent need to write React everywhere
+
 const [count, setCount] = React.useState(0);
 
 // Initialization
@@ -128,6 +132,8 @@ class Temperature extends React.Component {
 }
 
 render(<Temperature initialT={-10} />)
+
+// becomes
 ```
 
 ---
