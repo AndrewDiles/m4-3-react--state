@@ -1,57 +1,108 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const ListOptions = ({handleSelect, book, value, indexCounter, setHighlight, highlightedIndex, highlight, choiceMade, setChoiceMade, setBookChoice}) => {
+    // console.log('props', book)
 
+    // React.useEffect(() => {
+    //   if (indexCounter ===highlightedIndex) {
+    //     handleSelect(book.title);
+    //   }
+    // }, [choiceMade])
 
-
-const ListOptions = ({suggestions, handleSelect, book, value}) => {
-// const ListOptions = (props) => {
-    console.log('props', book)
-    
     let positionStart = book.title.toUpperCase().search(value.toUpperCase())
     let positionEnd = value.length + positionStart;
-    let current = value;
     
     let before = book.title.substring(0, positionStart);
+    let current = book.title.substring(positionStart, positionEnd);
     let after = book.title.substring(positionEnd, book.title.length);
-    console.log('before', before)
-    console.log('current', current)
-    console.log('after', after)
-
-    return (
-        // onHover={ev => {console.log('hovering on', props.book)}}
-                <BookListing
-                onClick={(ev) => handleSelect(book.title)}
-                >   
-                    <SingleListing>
-                        {`${before}`}
-                        <Boldme>{`${current}`}</Boldme>
-                        {`${after}  A ${book.categoryId} novel written by: ${book.author}`}
-                        {/* {`${book.title}  A ${book.categoryId} novel written by: ${book.author}`} */}
-                    </SingleListing>
-                </BookListing>
-    )
+    // console.log('before', before)
+    // console.log('current', current)
+    // console.log('after', after)
+    console.log('hightlight is', highlight);
+    if (highlight==='true') {
+        return (
+            // onHover={ev => {console.log('hovering on', props.book)}}
+                    <BookListingH
+                    onClick={(ev) => {
+                        
+                        setHighlight(indexCounter);
+                        setChoiceMade(true);
+                        setBookChoice(book.title);
+                        // React.useEffect(() => {
+                            handleSelect(book.title);
+                        // }, [setHighlight])
+                    }}
+                    >
+                        <SingleListing 
+                        id = {book.title}
+                        >
+                            <span>
+                            {`${before}`}
+                            </span>
+                            <Boldme>{`${current}`}</Boldme>
+                            <span>{`${after}  A `}</span>
+                            <PurpleItalics>{book.categoryId}</PurpleItalics>
+                            <span>{` novel written by: ${book.author}`}</span>
+                            {/* {`${book.title}  A ${book.categoryId} novel written by: ${book.author}`} */}
+                        </SingleListing>
+                    </BookListingH>
+        )
+    }
+    else {
+        return (
+            // onHover={ev => {console.log('hovering on', props.book)}}
+                    <BookListing
+                    onClick={(ev) => {
+                        setHighlight(indexCounter);
+                        setChoiceMade(true);
+                        setBookChoice(book.title);
+                        handleSelect(book.title);
+                    }}
+                    >   
+                        <SingleListing 
+                        id = {book.title}
+                        >
+                            <span>
+                            {`${before}`}
+                            </span>
+                            <Boldme>{`${current}`}</Boldme>
+                            <span>{`${after}  A `}</span>
+                            <PurpleItalics>{book.categoryId}</PurpleItalics>
+                            <span>{` novel written by: ${book.author}`}</span>
+                            {/* {`${book.title}  A ${book.categoryId} novel written by: ${book.author}`} */}
+                        </SingleListing>
+                    </BookListing>
+        )
+    }
 };
-
-// break it up into before found, the found and after found
 
 // {id: "the-authorities", categoryId: "sci-fi-fantasy", title: "The Authorities", author: "Scott Meyer"}
 
 const BookListing = styled('li')`
     display: flex;
     flex-direction: column;
-    &:hover {
-        background-color: palegreen;
-}
+    background-color: '';
+    /* &:hover {
+        background-color: palegreen; */
 `
-const Boldme = styled('p')`
+const BookListingH = styled('li')`
+    display: flex;
+    flex-direction: column;
+    background-color: palegreen;
+`
+const Boldme = styled('span')`
     font-weight: bold;
     margin: 0;
 `
+const PurpleItalics = styled('span')`
+    font-style: italic;
+    color: violet;
+`
 
 const SingleListing = styled('div')`
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
 `
 
 export default ListOptions;
